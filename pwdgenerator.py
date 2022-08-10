@@ -1,16 +1,16 @@
+#! /usr/bin/python3
+
 import argparse
 import os
+from custom_modules.ConsoleMessenger import CONSOLE_MESSENGER_SWITCH as cms
 
 cus = cms["custom"]
 msg = None
-desc = "This program will generate a QR code image from the given text"
-epil = "Generates a two dimensional Quick Response (QR) code  pictograph from any kind of data (e.g. binary, alphanumeric, or Kanji symbols) etc. The QR pictograph will be saved in the user's home directory."
+desc = "This program will generate a random string of characters"
+epil = "The string is generated from a combination of digits, upper and lower case letters and punctuation characters"
 vers = "%prog 0.1"
-data = None
-name = None
-file = None
 verbose = False
-is_file = False
+save_to_file = False
 
 
 def error_handler(*args):
@@ -31,3 +31,23 @@ parser.version = vers
 """ group arguments  """
 
 group = parser.add_mutually_exclusive_group()
+
+group.add_argument(
+    "-v",
+    "--verbose",
+    dest="verbose",
+    action="store_true",
+    help="Increase output verbosity",
+)
+
+""" positional arguments  """
+
+parser.add_argument(
+    "-g",
+    "--generate",
+    dest="generate",
+    action="store_true",
+    help="Generates a random string",
+)
+
+args = parser.parse_args()
