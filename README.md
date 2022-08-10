@@ -1,4 +1,4 @@
-## Pythonic Network Tools
+## Pythonic Desktop Tools
 
 ### _I had recently started some Python tutorials and so this project is for reference_
 
