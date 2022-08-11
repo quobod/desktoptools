@@ -14,6 +14,7 @@ desc = "This program will generate a random string of characters"
 epil = "The string is generated from a combination of digits, upper and lower case letters and punctuation characters"
 vers = "%prog 0.1"
 pwd = ""
+name = "generated-password.txt"
 verbose = False
 save_to_file = False
 
@@ -55,6 +56,8 @@ parser.add_argument(
     help="Saves the generated password to file in the usrer's home directory",
 )
 
+parser.add_argument("-n", "--name", help="Name output file. Works with [s] option.")
+
 # Run the program
 parser.add_argument(
     "-g",
@@ -72,6 +75,9 @@ if args.verbose:
 if args.save:
     save_to_file = True
 
+if args.name:
+    name = args.name
+
 if args.generate:
     if verbose:
         msg = cus(255, 255, 255, "... Generating password")
@@ -84,7 +90,7 @@ if args.generate:
         print("{}:\t{}".format(pwd_msg, msg))
 
         if save_to_file:
-            dest = "{}/{}".format(USER_DIR, "generated-password.txt")
+            dest = "{}/{}".format(USER_DIR, name)
             snf(dest, pwd)
             pwd_msg = cus(10, 255, 15, "Password Successfully Saved At {}".format(dest))
 
@@ -94,7 +100,7 @@ if args.generate:
         print("{}".format(cus(255, 255, 255, pwd)))
 
         if save_to_file:
-            dest = "{}/{}".format(USER_DIR, "generated-password.txt")
+            dest = "{}/{}".format(USER_DIR, name)
             snf(dest, pwd)
             pwd_msg = cus(10, 255, 15, "Password Successfully Saved At {}".format(dest))
 
