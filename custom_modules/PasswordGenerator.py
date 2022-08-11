@@ -1,5 +1,6 @@
 import string
 from random import *
+from multiprocessing.pool import ThreadPool
 
 
 def generate_password():
@@ -11,6 +12,12 @@ def generate_password():
         + string.ascii_lowercase
     )
 
-    password = "".join(choice(character) for x in range(randint(1, 14)))
+    password = "".join(choice(character) for x in range(randint(9, 29)))
 
     return password
+
+
+def generate_password_thread():
+    pool = ThreadPool(processes=3)
+    async_result = pool.apply_async(generate_password, ())
+    return async_result.get()
