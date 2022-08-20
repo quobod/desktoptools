@@ -1,3 +1,6 @@
+import types
+
+
 def arg_is_a_tuple(port_start_range):
     return (
         "<class 'tuple'>" == str(type(port_start_range))
@@ -34,3 +37,15 @@ def arg_is_a_float(port_start_range):
         "<class 'float'>" == str(type(port_start_range))
         and not port_start_range == None
     )
+
+
+def arg_is_a_function(arg):
+    return not arg == None and isinstance(arg, types.FunctionType)
+
+
+def arg_is_none(arg):
+    return str(type(arg)) == "<class 'NoneType'>"
+
+
+def arg_is_null(arg):
+    return arg.empty or arg == None

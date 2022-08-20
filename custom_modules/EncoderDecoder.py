@@ -22,10 +22,13 @@ def encode():
 
 def decode():
     str = input("Enter your encoded input to decode:\t")
-    str = read_bytes8(str)
-    str = codecs.decode(str, errors="strict")
+    d_str = codecs.decode(
+        str,
+        encoding="base64",
+        errors="strict",
+    )
 
-    msg = "{}".format(str)
+    msg = "{}".format(d_str)
     cmsg = cus(255, 255, 255, msg)
     s_msg = cus(34, 255, 34, "Success:")
 

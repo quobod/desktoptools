@@ -1,8 +1,11 @@
 #! /usr/bin/python3
-import os
-from custom_modules.PasswordGenerator import generate_password_thread as gpt
-from custom_modules.PlatformConstants import USER_DIR
 
-# print("Password:\t{}".format(gpt()))
+from custom_modules.ArgumentManager import filtered, filtered_count
+from custom_modules.EncoderDecoder import encode, decode
 
-print("{}\n{}".format(USER_DIR, os.system("ls {}".format(USER_DIR))))
+coder = {"encode": encode, "decode": decode}
+
+if filtered_count == 1:
+    action = filtered[0]
+    f = coder[action]
+    f()
