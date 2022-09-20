@@ -116,9 +116,7 @@ if args.generate:
         if save_to_file:
             if not args.name:
                 name = default_name
-
             if not he(name):
-                print("no extension")
                 name += ".txt"
             dest = "{}/{}".format(USER_DIR, name)
             snf(dest, pwd)
@@ -132,7 +130,8 @@ if args.generate:
         if save_to_file:
             if not args.name:
                 name = default_name
-                
+            if not he(name):
+                name += ".txt"                
             dest = "{}/{}".format(USER_DIR, name)
             snf(dest, pwd)
             pwd_msg = cus(100, 255, 150, "Password Successfully Saved At {}".format(dest))
