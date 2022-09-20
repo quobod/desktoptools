@@ -11,9 +11,7 @@ def generate_password():
         + string.punctuation
         + string.ascii_lowercase
     )
-
     password = "".join(choice(character) for x in range(randint(11, 35)))
-
     return password
 
 

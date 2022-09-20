@@ -37,18 +37,15 @@ def save_new_file(file_path, data=None):
     if not data == None:
         if fileExists(file_path) and isFile(file_path):
             deleted = delete_file(file_path)
-
             if deleted:
                 with open(file_path, "w") as f:
                     f.write(data)
                     f.write(lsep)
-
                 return fileExists(file_path)
         else:
             with open(file_path, "w") as f:
                 f.write(data)
                 f.write(lsep)
-
             return fileExists(file_path)
     return None
 
