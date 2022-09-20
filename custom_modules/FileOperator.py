@@ -1,6 +1,7 @@
 import os
-from custom_modules.FileValidator import fileExists, isFile
-from custom_modules.TypeTester import arg_is_a_list as aial
+from .FileValidator import fileExists, isFile
+from .TypeTester import arg_is_a_list as aial
+from .PlatformConstants import LINE_SEP as lsep
 
 
 def delete_file(file_path):
@@ -40,11 +41,13 @@ def save_new_file(file_path, data=None):
             if deleted:
                 with open(file_path, "w") as f:
                     f.write(data)
+                    f.write(lsep)
 
                 return fileExists(file_path)
         else:
             with open(file_path, "w") as f:
                 f.write(data)
+                f.write(lsep)
 
             return fileExists(file_path)
     return None

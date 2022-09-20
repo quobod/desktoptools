@@ -5,7 +5,7 @@ from multiprocessing.dummy import current_process
 import os
 import sys
 from custom_modules.ConsoleMessenger import CONSOLE_MESSENGER_SWITCH as cms
-from custom_modules.PlatformConstants import USER_DIR, LINE_SEP
+from custom_modules.PlatformConstants import USER_DIR
 from custom_modules.PatternConstants import has_ext as he
 from custom_modules.PasswordGenerator import generate_password_thread as gpt
 from custom_modules.FileOperator import save_new_file as snf
@@ -27,18 +27,15 @@ def exit_prog(exit_code=0):
 
 def error_handler(*args):
     cus = cms["custom"]
-    arg = args[0]
-    cargs = cus(254, 64, 4, arg)
-    print("{}".format(cargs))
+    e_msg_header = cus(255,120,120,"Error:")
+    e_msg_body = cus(255,255,255,"{}".format(args[0]))
+    e_msg = "\n\t{} {}\n".format(e_msg_header,e_msg_body)
+    print("{}".format(e_msg))
     exit_prog()
 
-
 parser = argparse.ArgumentParser(description=desc, epilog=epil)
-
 parser.error = error_handler
-
 parser.version = vers
-
 
 """ group arguments  """
 
@@ -55,6 +52,7 @@ group.add_argument(
 
 """ positional arguments  """
 
+# Save generated password to file 
 parser.add_argument(
     "-s",
     "--save",
@@ -62,11 +60,12 @@ parser.add_argument(
     help="Saves the generated password to file in the usrer's home directory. Works with the --name option.",
 )
 
+# Name the saved generated password file. Works with the --save option and defaults to 'generated_password.txt'
 parser.add_argument(
     "-n",
     "--name",
     nargs=1,
-    help="Name output file. Works with --save option. Enter a name for the file without an extension.",
+    help="Name output file. Works with --save option. Enter a name for the file without an extension."
 )
 
 # Run the program
@@ -105,11 +104,11 @@ if args.name:
 
 if args.generate:
     if verbose:
-        msg = cus(255, 255, 255, "... Generating password")
+        msg = cus(230, 255, 230, "... Generating password")
         print("\t\t{}\n".format(msg))
 
         pwd = gpt()
-        pwd_msg = cus(10, 255, 15, "Password Successfully Generated")
+        pwd_msg = cus(100, 255, 150, "Password Successfully Generated")
         msg = cus(255, 255, 255, pwd)
 
         print("{}:\t{}".format(pwd_msg, msg))
@@ -131,8 +130,13 @@ if args.generate:
         print("{}".format(cus(255, 255, 255, pwd)))
 
         if save_to_file:
+            if not args.name:
+                name = default_name
+                
             dest = "{}/{}".format(USER_DIR, name)
             snf(dest, pwd)
-            pwd_msg = cus(10, 255, 15, "Password Successfully Saved At {}".format(dest))
+            pwd_msg = cus(100, 255, 150, "Password Successfully Saved At {}".format(dest))
 
             print("{}".format(pwd_msg))
+    
+    exit_prog()
