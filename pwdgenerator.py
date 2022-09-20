@@ -3,8 +3,10 @@
 import argparse
 from multiprocessing.dummy import current_process
 import os
+import sys
 from custom_modules.ConsoleMessenger import CONSOLE_MESSENGER_SWITCH as cms
 from custom_modules.PlatformConstants import USER_DIR, LINE_SEP
+from custom_modules.PatternConstants import has_ext as he
 from custom_modules.PasswordGenerator import generate_password_thread as gpt
 from custom_modules.FileOperator import save_new_file as snf
 
@@ -14,9 +16,13 @@ desc = "This program will generate a random string of characters"
 epil = "The string is generated from a combination of digits, upper and lower case letters and punctuation characters"
 vers = "%prog 0.1"
 pwd = ""
-name = "generated-password.txt"
+default_name = "generated-password.txt"
 verbose = False
 save_to_file = False
+
+
+def exit_prog(exit_code=0):
+    sys.exit(exit_code)
 
 
 def error_handler(*args):
@@ -24,7 +30,7 @@ def error_handler(*args):
     arg = args[0]
     cargs = cus(254, 64, 4, arg)
     print("{}".format(cargs))
-    os.system("exit")
+    exit_prog()
 
 
 parser = argparse.ArgumentParser(description=desc, epilog=epil)
@@ -53,10 +59,15 @@ parser.add_argument(
     "-s",
     "--save",
     action="store_true",
-    help="Saves the generated password to file in the usrer's home directory",
+    help="Saves the generated password to file in the usrer's home directory. Works with the --name option.",
 )
 
-parser.add_argument("-n", "--name", help="Name output file. Works with [s] option.")
+parser.add_argument(
+    "-n",
+    "--name",
+    nargs=1,
+    help="Name output file. Works with --save option. Enter a name for the file without an extension.",
+)
 
 # Run the program
 parser.add_argument(
@@ -76,7 +87,21 @@ if args.save:
     save_to_file = True
 
 if args.name:
-    name = args.name
+    if he(args.name[0]):
+        e_msg_head = cus(255, 100, 100, "Error: ")
+        e_msg_body = cus(
+            255,
+            255,
+            255,
+            "The name [{}] must not include an extension - e.g. 'file-name.xyz'.".format(
+                args.name[0]
+            ),
+        )
+        e_msg = "{}{}".format(e_msg_head, e_msg_body)
+        print("{}".format(e_msg))
+        exit_prog()
+    else:
+        name = args.name[0]
 
 if args.generate:
     if verbose:
@@ -90,6 +115,12 @@ if args.generate:
         print("{}:\t{}".format(pwd_msg, msg))
 
         if save_to_file:
+            if not args.name:
+                name = default_name
+
+            if not he(name):
+                print("no extension")
+                name += ".txt"
             dest = "{}/{}".format(USER_DIR, name)
             snf(dest, pwd)
             pwd_msg = cus(10, 255, 15, "Password Successfully Saved At {}".format(dest))

@@ -1,6 +1,6 @@
 import os
 from custom_modules.FileValidator import fileExists, isFile
-from custom_modules.TypeTester import arg_is_a_list
+from custom_modules.TypeTester import arg_is_a_list as aial
 
 
 def delete_file(file_path):
@@ -10,18 +10,21 @@ def delete_file(file_path):
 
 
 def append_file(file_path, list_data):
-    if arg_is_a_list(list_data):
-        if fileExists(file_path) and isFile(file_path):
+    if aial(list_data):
+        file_exists = fileExists(file_path)
+        is_file = isFile(file_path)
+
+        if file_exists and is_file:
             deleted = delete_file(file_path)
 
             if deleted:
-                with open(file_path, "a") as f:
+                with open(file_path, "a", 2) as f:
                     for d in list_data:
                         f.write(d)
 
                 return fileExists(file_path)
         else:
-            with open(file_path, "a") as f:
+            with open(file_path, "a", 2) as f:
                 for d in list_data:
                     f.write(d)
 
@@ -40,8 +43,26 @@ def save_new_file(file_path, data=None):
 
                 return fileExists(file_path)
         else:
-            with open(file_path, "a") as f:
+            with open(file_path, "w") as f:
                 f.write(data)
 
             return fileExists(file_path)
     return None
+
+
+def write_to_file(file_path, _data=None):
+    if not _data == None:
+        _string_data = str(_data)
+
+        if fileExists(file_path):
+            deleted = delete_file(file_path)
+
+            if deleted:
+                with open(file_path, "w") as f:
+                    f.write(_string_data)
+
+        else:
+            with open(file_path, "w") as f:
+                f.write(_string_data)
+
+        return fileExists(file_path)
