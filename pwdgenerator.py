@@ -27,11 +27,12 @@ def exit_prog(exit_code=0):
 
 def error_handler(*args):
     cus = cms["custom"]
-    e_msg_header = cus(255,120,120,"Error:")
-    e_msg_body = cus(255,255,255,"{}".format(args[0]))
-    e_msg = "\n\t{} {}\n".format(e_msg_header,e_msg_body)
+    e_msg_header = cus(255, 120, 120, "Error:")
+    e_msg_body = cus(255, 255, 255, "{}".format(args[0]))
+    e_msg = "\n\t{} {}\n".format(e_msg_header, e_msg_body)
     print("{}".format(e_msg))
     exit_prog()
+
 
 parser = argparse.ArgumentParser(description=desc, epilog=epil)
 parser.error = error_handler
@@ -52,7 +53,7 @@ group.add_argument(
 
 """ positional arguments  """
 
-# Save generated password to file 
+# Save generated password to file
 parser.add_argument(
     "-s",
     "--save",
@@ -65,7 +66,7 @@ parser.add_argument(
     "-n",
     "--name",
     nargs=1,
-    help="Name output file. Works with --save option. Enter a name for the file without an extension."
+    help="Name output file. Works with --save option. Ecpects a file name without an extension.",
 )
 
 # Run the program
@@ -131,11 +132,13 @@ if args.generate:
             if not args.name:
                 name = default_name
             if not he(name):
-                name += ".txt"                
+                name += ".txt"
             dest = "{}/{}".format(USER_DIR, name)
             snf(dest, pwd)
-            pwd_msg = cus(100, 255, 150, "Password Successfully Saved At {}".format(dest))
+            pwd_msg = cus(
+                100, 255, 150, "Password Successfully Saved At {}".format(dest)
+            )
 
             print("{}".format(pwd_msg))
-    
+
     exit_prog()

@@ -1,7 +1,7 @@
 #! /usr/bin/python3
 
 import re
-from custom_modules.TypeTester import arg_is_a_string as aias
+from .TypeTester import arg_is_a_string as aias
 
 
 """ IPv4 address """
@@ -61,7 +61,7 @@ def has_char(string=None, character=None):
 def is_a_number_or_float(arg=None):
     if not arg == None:
         pattern = re.compile(r"^([0-9]+(\.)?)?[0-9]{1,}$")
-        matched = re.search(pattern, arg)
+        matched = re.search(pattern, str(arg))
         return not matched == None
     return False
 
@@ -69,7 +69,7 @@ def is_a_number_or_float(arg=None):
 def is_a_number(arg=None):
     if not arg == None:
         pattern = re.compile(r"^([0-9]+)$")
-        matched = re.search(pattern, arg)
+        matched = re.search(pattern, str(arg))
         return not matched == None
     return False
 

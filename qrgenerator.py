@@ -55,7 +55,9 @@ parser.add_argument(
 )
 
 # name the generated qr code image
-parser.add_argument("-n", "--name", help="Name the generated QR image", dest="name")
+parser.add_argument(
+    "-n", "--name", nargs=1, help="Name the generated QR image", dest="name"
+)
 
 
 args = parser.parse_args()
