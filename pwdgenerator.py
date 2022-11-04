@@ -96,7 +96,8 @@ if args.save:
     save_to_file = True
 
 if args.name:
-    if he(args.name[0]):
+    status, data = he(args.name[0])
+    if status:
         e_msg_head = cus(255, 100, 100, "Error: ")
         e_msg_body = cus(
             255,
