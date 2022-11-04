@@ -2,6 +2,10 @@
 
 import re
 from .TypeTester import arg_is_a_string as aias
+from .ConsoleMessenger import CONSOLE_MESSENGER_SWITCH as cms
+
+
+cus = cms["custom"]
 
 
 """ IPv4 address """
@@ -46,10 +50,16 @@ def valid_network_range(address=None):
 
 def has_ext(string=None):
     if not string == None:
-        FILE_EXTENSION = re.compile(r"(.)+(\.[a-z]{2,3})$")
-        matched = re.search(FILE_EXTENSION, string)
-        return not matched == None
-    return False
+        pattern = re.compile(r"(.)+(\.[a-z]{2,3})$")
+        matched = re.search(pattern, string)
+
+        try:
+            assert not matched == None
+            return True, matched
+        except AssertionError as ae:
+            msg = cus(255, 255, 255, "{}".format(ae))
+            print("{}\n".format(msg))
+            return False, None
 
 
 def has_char(string=None, character=None):
@@ -62,16 +72,14 @@ def is_a_number_or_float(arg=None):
     if not arg == None:
         pattern = re.compile(r"^([0-9]+(\.)?)?[0-9]{1,}$")
         matched = re.search(pattern, str(arg))
-        return not matched == None
-    return False
 
-
-def is_a_number(arg=None):
-    if not arg == None:
-        pattern = re.compile(r"^([0-9]+)$")
-        matched = re.search(pattern, str(arg))
-        return not matched == None
-    return False
+        try:
+            assert not matched == None
+            return True, matched
+        except AssertionError as ae:
+            msg = cus(255, 255, 255, "{}".format(ae))
+            print("{}\n".format(msg))
+            return False, None
 
 
 def is_port_range(arg=None):
@@ -79,12 +87,13 @@ def is_port_range(arg=None):
         pattern = re.compile(r"^(([0-9]+)(\-))([0-9]+)|((\,)([0-9]+))+")
         matched = re.search(pattern, arg)
 
-        # print("Matched: {}".format(matched))
-
-        if matched:
-            return not matched == None
-
-    return False
+        try:
+            assert not matched == None
+            return True, matched
+        except AssertionError as ae:
+            msg = cus(255, 255, 255, "{}".format(ae))
+            print("{}\n".format(msg))
+            return False, None
 
 
 def has_space(string):
