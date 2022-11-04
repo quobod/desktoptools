@@ -85,3 +85,53 @@ def is_port_range(arg=None):
             return not matched == None
 
     return False
+
+
+def has_space(string):
+    pattern = re.compile(r"[.* ]+")
+    matched = re.search(pattern, string)
+    try:
+        assert not matched == None
+        return True, matched
+    except AssertionError as ae:
+        return False, None
+
+
+def is_alpha_only(string):
+    pattern = re.compile(r"^[a-zA-Z]+$")
+    matched = re.search(pattern, string)
+    try:
+        assert not matched == None
+        return True, matched
+    except AssertionError as ae:
+        return False, None
+
+
+def is_number_only(string):
+    pattern = re.compile(r"^[0-9]+$")
+    matched = re.search(pattern, string)
+    try:
+        assert not matched == None
+        return True, matched
+    except AssertionError as ae:
+        return False, None
+
+
+def is_alpha_with_blank_space(string):
+    pattern = re.compile(r"^([a-zA-Z]+)|([ ])$")
+    matched = re.search(pattern, string)
+    try:
+        assert not matched == None
+        return True, matched
+    except AssertionError as ae:
+        return False, None
+
+
+def is_numbers_with_blank_space(string):
+    pattern = re.compile(r"^([0-9]+)|([ ])$")
+    matched = re.search(pattern, string)
+    try:
+        assert not matched == None
+        return True, matched
+    except AssertionError as ae:
+        return False, None

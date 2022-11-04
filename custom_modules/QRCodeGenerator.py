@@ -8,7 +8,7 @@ def generate_qr_code(url=None, name=None):
 
     if not url == None and not name == None:
 
-        # If name ends with ".abc" then raise an error
+        # If name ends with an extension e.g. ".abc" then raise an error
         FILE_EXTENSION = re.compile(r"(.)+(\.[a-z]{2,3})")
         ended_with_ext = re.search(FILE_EXTENSION, name)
 
@@ -35,4 +35,4 @@ def generate_qr_code(url=None, name=None):
             os.remove(qr_img_path)
 
         im.save(qr_img_path, format="png")
-        return {"status": True}
+        return {"status": True, "location": "{}".format(qr_img_path)}

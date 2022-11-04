@@ -8,7 +8,8 @@ from custom_modules.ConsoleMessenger import CONSOLE_MESSENGER_SWITCH as cms
 from custom_modules.PlatformConstants import USER_DIR
 from custom_modules.PatternConstants import has_ext as he
 from custom_modules.PasswordGenerator import generate_password_thread as gpt
-from custom_modules.FileOperator import save_new_file as snf
+from custom_modules.FileOperator import save_new_file as snf, delete_file as df
+from custom_modules.FileValidator import fileExists as fe
 
 cus = cms["custom"]
 msg = None
@@ -59,6 +60,14 @@ parser.add_argument(
     "--save",
     action="store_true",
     help="Saves the generated password to file in the usrer's home directory. Works with the --name option.",
+)
+
+# Delete saved password generated file
+parser.add_argument(
+    "-d",
+    "--delete",
+    nargs=1,
+    help="Delete the  generated password file. Works with the --save parameter",
 )
 
 # Name the saved generated password file. Works with the --save option and defaults to 'generated_password.txt'
@@ -124,6 +133,7 @@ if args.generate:
             pwd_msg = cus(10, 255, 15, "Password Successfully Saved At {}".format(dest))
 
             print("{}".format(pwd_msg))
+
     else:
         pwd = gpt()
         print("{}".format(cus(255, 255, 255, pwd)))
@@ -140,5 +150,15 @@ if args.generate:
             )
 
             print("{}".format(pwd_msg))
-
-    exit_prog()
+elif args.delete:
+    file_path = args.delete[0]
+    if fe(file_path):
+        df(file_path)
+    else:
+        s_msg_header = cus(255, 180, 0, "Info")
+        s_msg_body = cus(
+            255, 255, 255, "file path: '{}' does not exist".format(file_path)
+        )
+        s_msg = "{}: {}".format(s_msg_header, s_msg_body)
+        print("{}\n".format(s_msg))
+exit_prog()
