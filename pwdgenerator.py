@@ -107,7 +107,7 @@ if args.name:
                 args.name[0]
             ),
         )
-        e_msg = "{}{}".format(e_msg_head, e_msg_body)
+        e_msg = "{} {}".format(e_msg_head, e_msg_body)
         print("{}".format(e_msg))
         exit_prog()
     else:
